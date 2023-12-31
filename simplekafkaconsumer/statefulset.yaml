@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kafka-consumer-statefulset
+spec:
+  serviceName: "kafka-consumer"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-consumer
+  template:
+    metadata:
+      labels:
+        app: kafka-consumer
+    spec:
+      containers:
+      - name: kafka-consumer
+        image: windmuse.iptime.org:8084/repository/kafka-consumer:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9089

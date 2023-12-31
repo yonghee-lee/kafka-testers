@@ -4,20 +4,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import net.fatdog.simplekafkaproducer.producer.DynamicKafkaProducer;
+import net.fatdog.simplekafkaproducer.producer.SimpleProducerConfig;
+
 @RestController
 @RequestMapping("/kafka/config")
 public class KafkaConfigController {
     
     @Autowired
-    private ProducerConfiguration producerConfiguration;
+    private SimpleProducerConfig producerConfig;
 
     @Autowired
-    private KafkaProducerService kafkaProducerService;
+    private DynamicKafkaProducer kafkaProducer;
 
     @PostMapping("/update-batch-size")
     public ResponseEntity<String> updateBatchSize(@RequestParam int batchSize) {
-        producerConfiguration.updateBatchSize(batchSize);
-        kafkaProducerService.refreshProducer();
+        producerConfig.updateBatchSize(batchSize);
+        kafkaProducer.refreshProducer();
         return ResponseEntity.ok("Batch size updated to: " + batchSize);
     }
 }

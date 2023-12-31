@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kafka-producer-statefulset
+spec:
+  serviceName: "kafka-producer"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-producer
+  template:
+    metadata:
+      labels:
+        app: kafka-producer
+    spec:
+      containers:
+      - name: kafka-producer
+        image: windmuse.iptime.org:8084/repository/kafka-producer:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9089
